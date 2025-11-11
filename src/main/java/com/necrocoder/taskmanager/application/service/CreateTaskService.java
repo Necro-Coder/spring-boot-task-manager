@@ -13,6 +13,7 @@ public class CreateTaskService implements CreateTaskUseCase {
     public CreateTaskService(TaskRepositoryPort taskRepositoryPort) {
         this.taskRepositoryPort = taskRepositoryPort;
     }
+
     @Override
     public Task execute(CreateTaskCommand command) {
         Task task = Task.create(
