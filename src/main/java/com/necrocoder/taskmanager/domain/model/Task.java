@@ -2,7 +2,6 @@ package com.necrocoder.taskmanager.domain.model;
 
 import com.necrocoder.taskmanager.domain.exception.InvalidTaskException;
 import com.necrocoder.taskmanager.domain.model.valueobject.TaskStatus;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -37,6 +36,13 @@ public class Task {
 
 
         return new Task(null, title, description, dueDate, priority);
+    }
+
+    public static Task recreate(UUID taskId, String title, String description, LocalDateTime dueDate, String priority, TaskStatus status, LocalDateTime createdAt) {
+        Task task = new Task(taskId, title, description, dueDate, priority);
+        task.status = status;
+        task.createdAt = createdAt;
+        return task;
     }
 
     private void setTitle(String title) {
