@@ -13,8 +13,10 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static org.junit.jupiter.api.Assertions.assertNull;
+
 @ExtendWith(MockitoExtension.class)
-public class CreateTaskServiceTest {
+class CreateTaskServiceTest {
 
     @Mock
     private TaskRepositoryPort taskRepositoryPort;
@@ -33,13 +35,13 @@ public class CreateTaskServiceTest {
     }
 
     @Test
-    public void testCreateTask() {
+    void testCreateTask() {
         Task task = TASK_PREPARED();
-        createTaskService.execute(new CreateTaskCommand(
+        assertNull(createTaskService.execute(new CreateTaskCommand(
                 task.getTitle(),
                 task.getDescription(),
                 task.getDueDate(),
                 task.getPriority()
-        ));
+        )));
     }
 }

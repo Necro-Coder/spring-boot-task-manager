@@ -59,15 +59,15 @@ public class TaskController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Void> updateTask(@PathVariable UUID id, @RequestBody UpdateTaskRequest updateTaskRequest) {
+    public ResponseEntity<String> updateTask(@PathVariable UUID id, @RequestBody UpdateTaskRequest updateTaskRequest) {
         UpdateTaskCommand updateTaskCommand = TaskRestMapper.toUpdateCommand(updateTaskRequest);
         updateTaskUseCase.execute(id, updateTaskCommand);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok("Task with id: " + id + " updated successfully.");
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable UUID id) {
+    public ResponseEntity<String> deleteTask(@PathVariable UUID id) {
         deleteTaskUseCase.execute(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Task with id: " + id + " deleted successfully.");
     }
 }

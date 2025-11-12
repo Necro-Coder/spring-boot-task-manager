@@ -7,6 +7,7 @@ import com.necrocoder.taskmanager.domain.port.in.UpdateTaskUseCase;
 import com.necrocoder.taskmanager.domain.port.out.TaskRepositoryPort;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,14 +20,17 @@ public class UpdateTaskService implements UpdateTaskUseCase {
     }
 
     @Override
-    public Task execute(UUID taskId, UpdateTaskCommand command) {
-        Task taskToUpdate = taskRepositoryPort.findById(taskId)
+    public Optional<Task> execute(UUID taskId, UpdateTaskCommand command) {
+        taskRepositoryPort.findById(taskId)
                 .orElseThrow(() -> new TaskNotFoundException(taskId));
 
-        taskToUpdate.updateTitle(command.title());
-        taskToUpdate.updateDescription(command.description());
-        taskToUpdate.updateDueDate(command.dueDate());
-        taskToUpdate.updatePriority(command.priority());
-        return taskRepositoryPort.save(taskToUpdate);
+        Task task = Task.create(
+                command.title(),
+                command.description(),
+                command.dueDate(),
+                command.priority()
+        );
+
+        return taskRepositoryPort.update(taskId, task);
     }
 }

@@ -2,6 +2,7 @@ package com.necrocoder.taskmanager.domain.model;
 
 import com.necrocoder.taskmanager.domain.exception.InvalidTaskException;
 import com.necrocoder.taskmanager.domain.model.valueobject.TaskStatus;
+import com.necrocoder.taskmanager.infrastructure.persistence.TaskEntity;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -28,6 +29,18 @@ public class Task {
         this.createdAt = LocalDateTime.now();
     }
 
+    public static Task from(TaskEntity taskEntity) {
+        Task task = new Task(
+                taskEntity.getId(),
+                taskEntity.getTitle(),
+                taskEntity.getDescription(),
+                taskEntity.getDueDate(),
+                taskEntity.getPriority()
+        );
+        task.createdAt = taskEntity.getCreatedAt();
+        task.status = taskEntity.getStatus();
+        return task;
+    }
     public static Task create(String title, String description, LocalDateTime dueDate, String priority) {
         // business validation
         if (title == null || title.isEmpty()) {
@@ -77,6 +90,10 @@ public class Task {
     }
 
     public void updateDueDate(LocalDateTime dueDate) {
+        if(dueDate == this.dueDate) {
+            return;
+        }
+
         if(dueDate != null && dueDate.isBefore(LocalDateTime.now())) {
             throw new InvalidTaskException("Due date cannot be before the current date");
         }

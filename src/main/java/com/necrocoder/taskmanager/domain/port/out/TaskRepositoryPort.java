@@ -11,7 +11,9 @@ public interface TaskRepositoryPort {
 
     Optional<Task> findById(UUID id);
 
+    Optional<List<Task>> findByDescriptionContaining(String keyword);
+
+    Optional<Task> update(UUID id, Task task);
     Task save(Task task);
-    Task update(Task task);
     void deleteById(UUID id);
 }
