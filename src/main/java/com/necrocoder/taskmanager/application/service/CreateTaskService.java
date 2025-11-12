@@ -22,7 +22,6 @@ public class CreateTaskService implements CreateTaskUseCase {
                 command.dueDate(),
                 command.priority()
         );
-        taskRepositoryPort.save(task);
-        return task;
+        return taskRepositoryPort.save(task);
     }
 }

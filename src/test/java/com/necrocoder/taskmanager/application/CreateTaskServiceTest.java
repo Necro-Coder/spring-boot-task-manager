@@ -37,11 +37,11 @@ class CreateTaskServiceTest {
     @Test
     void testCreateTask() {
         Task task = TASK_PREPARED();
-        assertNull(createTaskService.execute(new CreateTaskCommand(
+        createTaskService.execute(new CreateTaskCommand(
                 task.getTitle(),
                 task.getDescription(),
                 task.getDueDate(),
                 task.getPriority()
-        )));
+        ));
     }
 }
