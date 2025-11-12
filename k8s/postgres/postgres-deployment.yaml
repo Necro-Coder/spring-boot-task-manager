@@ -1,0 +1,34 @@
+# k8s/postgres-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:15
+          env:
+            - name: POSTGRES_DB
+              value: midb                # nombre de la base
+            - name: POSTGRES_USER
+              value: user                # usuario
+            - name: POSTGRES_PASSWORD
+              value: pass                # contraseña
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: pgdata
+              mountPath: /mnt/extdisk/postgres-data   # Donde postgres guarda los datos
+      volumes:
+        - name: pgdata
+          persistentVolumeClaim:
+            claimName: pgdata

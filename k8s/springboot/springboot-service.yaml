@@ -1,0 +1,13 @@
+# k8s/springboot-service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: springboot-service
+spec:
+  type: NodePort     # o ClusterIP si solo usas desde dentro
+  ports:
+    - port: 9090
+      targetPort: 9090
+      nodePort: 30090     # Puedes ponerle el NodePort que quieras, útil para entrar desde otra máquina
+  selector:
+    app: springboot-app
